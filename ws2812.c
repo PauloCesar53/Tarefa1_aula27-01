@@ -25,8 +25,11 @@
 #define tempo 200 //para led vermelho piscar 5 vezes por segundo 
 #define Frames 10
 #define LED_PIN_R 13
+#define Botao_A 5// gpio do botão A na BitDogLab
+#define Botao_B 6// gpio do botão B na BitDogLab
+
 // Variável global para armazenar a cor (Entre 0 e 255 para intensidade)
-uint8_t led_r = 255; // Intensidade do vermelho
+uint8_t led_r = 25; // Intensidade do vermelho
 uint8_t led_g = 0; // Intensidade do verde
 uint8_t led_b = 0; // Intensidade do azul
 
@@ -38,7 +41,7 @@ bool led_buffer[NUM_PIXELS] = {
     0, 0, 0, 0, 0, 
     0, 0, 0, 0, 0
 }; 
-/*posição na matriz de leds para o buffer para auxiliar 
+/*posição na matriz de leds para o buffer acima para auxiliar na visualização 
     0, 1, 2, 3, 4, 
     5, 6, 7, 8, 9, 
     10, 11, 12, 13, 14, 
@@ -60,6 +63,7 @@ int bufer_Numeros[Frames][NUM_PIXELS]=
     {0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0},// para o numero 8
     {0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0} // para o numero 9
 };
+//função que atualiza o bufer de acordo o numero de 0 a 9
 void atualiza_bufer(bool bufer[], int b[][NUM_PIXELS], int c){
     for(int i=0;i<NUM_PIXELS;i++){
         bufer[i]=b[c][i];
@@ -103,14 +107,36 @@ int main()
     uint offset = pio_add_program(pio, &ws2812_program);
 
     ws2812_program_init(pio, sm, offset, WS2812_PIN, 800000, IS_RGBW);
-
+    //configuração led RGB vermelho 
     gpio_init(LED_PIN_R);//inicializa pino do led vermelho 
-    gpio_set_dir(LED_PIN_R, GPIO_OUT);//define como saída 
+    gpio_set_dir(LED_PIN_R, GPIO_OUT);//configrua como saída 
     gpio_put(LED_PIN_R, 0);//led inicia apagado 
-    
+
+    //configuração botão A
+    gpio_init(Botao_A);//inicializa pino do botão A
+    gpio_set_dir(Botao_A, GPIO_IN);//configura como entrada 
+    gpio_pull_up(Botao_A);//Habilita o pull-up interno
+
+    //configuração botão B
+    gpio_init(Botao_B);//inicializa pino do botão B
+    gpio_set_dir(Botao_B, GPIO_IN);//configura como entrada 
+    gpio_pull_up(Botao_B);//Habilita o pull-up interno
+
+    int aux=5; //posição do numero impresso na matriz, inicialmente imprime numero 5
+    atualiza_bufer(led_buffer,bufer_Numeros, aux);//atualiza buffer para numero 5
+    set_one_led(led_r, led_g, led_b);//forma numero 5 primeira vez 
 
     while (1)
     {
+        if(gpio_get(Botao_A)==0 && aux<Frames-1){
+            aux++;
+            atualiza_bufer(led_buffer,bufer_Numeros, aux);
+            set_one_led(led_r, led_g, led_b);
+        }else if(gpio_get(Botao_B)==0 && aux>0){
+            aux--;
+            atualiza_bufer(led_buffer,bufer_Numeros, aux);
+            set_one_led(led_r, led_g, led_b);
+        }
         gpio_put(LED_PIN_R, 1);//liga led 
         sleep_ms(tempo/2);//mantem ligado por 100   ms
         gpio_put(LED_PIN_R, 0);//desliga o led 
