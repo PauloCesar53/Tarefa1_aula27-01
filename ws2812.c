@@ -22,13 +22,13 @@
 #define IS_RGBW false
 #define NUM_PIXELS 25
 #define WS2812_PIN 7
-#define tempo 400
+#define tempo 200 //para led vermelho piscar 5 vezes por segundo 
 #define Frames 10
-
+#define LED_PIN_R 13
 // Variável global para armazenar a cor (Entre 0 e 255 para intensidade)
-uint8_t led_r = 49; // Intensidade do vermelho
-uint8_t led_g = 11; // Intensidade do verde
-uint8_t led_b = 45; // Intensidade do azul
+uint8_t led_r = 255; // Intensidade do vermelho
+uint8_t led_g = 0; // Intensidade do verde
+uint8_t led_b = 0; // Intensidade do azul
 
 // Buffer para armazenar quais LEDs estão ligados matriz 5x5
 bool led_buffer[NUM_PIXELS] = {
@@ -38,20 +38,21 @@ bool led_buffer[NUM_PIXELS] = {
     0, 0, 0, 0, 0, 
     0, 0, 0, 0, 0
 }; 
-/*posição na matriz de leds para o buffer
+/*posição na matriz de leds para o buffer para auxiliar 
     0, 1, 2, 3, 4, 
     5, 6, 7, 8, 9, 
     10, 11, 12, 13, 14, 
     15, 16, 17, 18, 19, 
     20, 21, 22, 23, 24
 */
+
 //cotem os frames que formam os numeros de 0 a 9
 int bufer_Numeros[Frames][NUM_PIXELS]=
 {//
     {0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0},//para o numero zero 
     {0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0},// para o numero 1
-    {1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0},// para o numero 2
-    {1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0},// para o numero 3
+    {0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0},// para o numero 2
+    {0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0},// para o numero 3
     {0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0},// para o numero 4
     {0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0},// para o numero 5
     {0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0},// para o numero 6
@@ -103,15 +104,24 @@ int main()
 
     ws2812_program_init(pio, sm, offset, WS2812_PIN, 800000, IS_RGBW);
 
+    gpio_init(LED_PIN_R);//inicializa pino do led vermelho 
+    gpio_set_dir(LED_PIN_R, GPIO_OUT);//define como saída 
+    gpio_put(LED_PIN_R, 0);//led inicia apagado 
+    
+
     while (1)
     {
-        for (int i=0;i<10;i++){
-        atualiza_bufer(led_buffer,bufer_Numeros, i);
-        set_one_led(led_r, led_g, led_b);
-        sleep_ms(1555);
+        gpio_put(LED_PIN_R, 1);//liga led 
+        sleep_ms(tempo/2);//mantem ligado por 100   ms
+        gpio_put(LED_PIN_R, 0);//desliga o led 
+        sleep_ms(tempo/2);//mantem desligado por 100   ms, totalizamdo 200 ms de espera até ligar novamente(pisca 5 vezes por segundo) 
+
+
+        //atualiza_bufer(led_buffer,bufer_Numeros, i);
+        //set_one_led(led_r, led_g, led_b);
         //set_one_led(0, 0, 0);
-        sleep_ms(1444);
-        }
+        
+        
     }
 
     return 0;
