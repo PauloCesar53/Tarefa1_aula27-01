@@ -24,12 +24,12 @@ utilizando rotinas de interrupção (IRQ).
 
 ## Configuração
 
-### Mapeamento de teclas
+### Mapeamento dos Botões
 
-| Tecla | Função                              |
-|-------|-------------------------------------|
-| **Botão_A** | incrementa o número na matriz de LEDs|
-| **Botão_B** | decrementa o número na matriz de LEDs|
+| Botão       | Função                               |
+|-------------|--------------------------------------|
+| **Botão A** | incrementa o número na matriz de LEDs|
+| **Botão B** | decrementa o número na matriz de LEDs|
 
 ## Compilação e Execução
 
@@ -43,7 +43,7 @@ utilizando rotinas de interrupção (IRQ).
 
 ## Demonstração no YouTube
 
-Confira a demonstração completa deste projeto no YouTube:
+Confira a demonstração completa deste projeto no YouTube: (https://youtube.com/shorts/jfCe6ezIlYM?si=kFjhQT5BCX9zyJDC)
 
 ---
 
@@ -59,4 +59,4 @@ Para testar o programa sem hardware físico, você pode utilizar o **Wokwi** par
 ---
 
 ## Colaboradores
-- [PauloCesar53 - Paulo César de Jesus Di Lauro ](https://github.com/PauloCesar53)
+- [PauloCesar53 - Paulo César de Jesus Di Lauro ] (https://github.com/PauloCesar53)
