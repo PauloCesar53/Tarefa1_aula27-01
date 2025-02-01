@@ -33,7 +33,10 @@ uint8_t led_r = 0;  // Intensidade do vermelho
 uint8_t led_g = 25; // Intensidade do verde
 uint8_t led_b = 25; // Intensidade do azul
 
+//variáveis globais 
 static volatile int aux = 5; // posição do numero impresso na matriz, inicialmente imprime numero 5
+static volatile uint32_t last_time = 0; // Armazena o tempo do último evento (em microssegundos)
+
 // Buffer para armazenar quais LEDs estão ligados matriz 5x5
 bool led_buffer[NUM_PIXELS] = {
     0, 0, 0, 0, 0,
@@ -64,6 +67,8 @@ int bufer_Numeros[Frames][NUM_PIXELS] =
         {0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0}, // para o numero 8
         {0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0}  // para o numero 9
 };
+
+
 // função que atualiza o bufer de acordo o numero de 0 a 9
 void atualiza_bufer(bool bufer[], int b[][NUM_PIXELS], int c)
 {
@@ -105,14 +110,17 @@ void set_one_led(uint8_t r, uint8_t g, uint8_t b)
 // função interrupção para os botões A e B
 void gpio_irq_handler(uint gpio, uint32_t events)
 {
-    if (gpio_get(Botao_A) == 0 && aux < Frames - 1)
-    { // se botão A for pressionado e aux<9 incrementa aux em 1(próximo número)
+    uint32_t current_time = to_us_since_boot(get_absolute_time());//// Obtém o tempo atual em microssegundos
+    if (gpio_get(Botao_A) == 0 && aux < Frames - 1 && (current_time - last_time) > 200000)//200ms de boucing adiconado como condição 
+    { // se botão A for pressionado e aux<9 incrementa aux em 1(próximo número) 
+        last_time = current_time; // Atualiza o tempo do último evento
         aux++;
         atualiza_bufer(led_buffer, bufer_Numeros, aux); /// atualiza buffer
         set_one_led(led_r, led_g, led_b);               // forma numero na matriz
     }
-    else if (gpio_get(Botao_B) == 0 && aux > 0)
+    if (gpio_get(Botao_B) == 0 && aux > 0 && (current_time - last_time) > 200000)//200ms de boucing adiconado como condição 
     { // se botão B for pressionado e aux>0 decrementa aux em 1(número anterior)
+        last_time = current_time; // Atualiza o tempo do último evento
         aux--;
         atualiza_bufer(led_buffer, bufer_Numeros, aux); // atualiza buffer
         set_one_led(led_r, led_g, led_b);               // forma numero na matriz
@@ -158,9 +166,6 @@ int main()
         gpio_put(LED_PIN_R, 0); // desliga o led
         sleep_ms(tempo / 2);    // mantem desligado por 100   ms, totalizamdo 200 ms de espera até ligar novamente(pisca 5 vezes por segundo)
 
-        // atualiza_bufer(led_buffer,bufer_Numeros, i);
-        // set_one_led(led_r, led_g, led_b);
-        // set_one_led(0, 0, 0);
     }
 
     return 0;
