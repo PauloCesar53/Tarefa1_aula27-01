@@ -7,10 +7,20 @@
  *
  * A seleção de LEDs acesos é feita por meio de um buffer de LEDs, onde
  * cada posição do buffer representa um LED da matriz 5x5.
+ * 
  *
  * Original em:
  * https://github.com/wiltonlacerda/EmbarcaTechU4C4/tree/72b3f5e897974c0957e3d281d8b548a674a1948d/06_ws2812_Escolha
- */
+ * 
+ *                    Funcionamento do programa 
+ *O programa mostra números de 0 a 9 na matriz de led 5x5, sendo o usuário capaz
+ * de incrementar um numero ao apertar o botão A e decrementar um numéro ao apertar
+ *  o botão B da BitDogLab, como o led vermelgo RGB (gpio 13) piscando 5 vezes por segundo.
+ * 
+ *                    Tratamento de deboucing com interrupção 
+ * A ativação dos botões A e B são feitas através de uma rotina de interrupção, sendo
+ * implementada condição para tratar o efeito boucing na rotina.
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -107,7 +117,7 @@ void set_one_led(uint8_t r, uint8_t g, uint8_t b)
     }
 }
 
-// função interrupção para os botões A e B
+// função interrupção para os botões A e B com condição para deboucing
 void gpio_irq_handler(uint gpio, uint32_t events)
 {
     uint32_t current_time = to_us_since_boot(get_absolute_time());//// Obtém o tempo atual em microssegundos
