@@ -14,8 +14,8 @@
  * 
  *                    Funcionamento do programa 
  *O programa mostra números de 0 a 9 na matriz de led 5x5, sendo o usuário capaz
- * de incrementar um numero ao apertar o botão A e decrementar um numéro ao apertar
- *  o botão B da BitDogLab, como o led vermelgo RGB (gpio 13) piscando 5 vezes por segundo.
+ * de incrementar um número ao apertar o botão A e decrementar um numéro ao apertar
+ *  o botão B da BitDogLab, como o led vermelho RGB (gpio 13) piscando 5 vezes por segundo.
  * 
  *                    Tratamento de deboucing com interrupção 
  * A ativação dos botões A e B são feitas através de uma rotina de interrupção, sendo
@@ -62,24 +62,24 @@ bool led_buffer[NUM_PIXELS] = {
     20, 21, 22, 23, 24
 */
 
-// cotem os frames que formam os numeros de 0 a 9
+// Frames que formam os numeros de 0 a 9
 int bufer_Numeros[Frames][NUM_PIXELS] =
     {
         //
-        {0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0}, // para o numero zero
-        {0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0}, // para o numero 1
-        {0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0}, // para o numero 2
-        {0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0}, // para o numero 3
-        {0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0}, // para o numero 4
-        {0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0}, // para o numero 5
-        {0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0}, // para o numero 6
-        {0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0}, // para o numero 7
-        {0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0}, // para o numero 8
-        {0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0}  // para o numero 9
+        {0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0}, // para o número zero
+        {0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0}, // para o número 1
+        {0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0}, // para o número 2
+        {0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0}, // para o número 3
+        {0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0}, // para o número 4
+        {0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0}, // para o número 5
+        {0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0}, // para o número 6
+        {0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0}, // para o número 7
+        {0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0}, // para o número 8
+        {0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0}  // para o número 9
 };
 
 
-// função que atualiza o bufer de acordo o numero de 0 a 9
+// função que atualiza o bufer de acordo o número de 0 a 9
 void atualiza_bufer(bool bufer[], int b[][NUM_PIXELS], int c)
 {
     for (int i = 0; i < NUM_PIXELS; i++)
@@ -133,7 +133,7 @@ void gpio_irq_handler(uint gpio, uint32_t events)
         last_time = current_time; // Atualiza o tempo do último evento
         aux--;
         atualiza_bufer(led_buffer, bufer_Numeros, aux); // atualiza buffer
-        set_one_led(led_r, led_g, led_b);               // forma numero na matriz
+        set_one_led(led_r, led_g, led_b);               // forma número na matriz
     }
 }
 
@@ -162,19 +162,19 @@ int main()
     atualiza_bufer(led_buffer, bufer_Numeros, aux); // atualiza buffer para numero 5
     set_one_led(led_r, led_g, led_b);               // forma numero 5 primeira vez
 
-    // configurando da interrupção com botão na descida para o botão A
+    // configurando a interrupção com botão na descida para o botão A
     gpio_set_irq_enabled_with_callback(Botao_A, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler);
 
-    // configurando da interrupção com botão na descida para o botão A
+    // configurando a interrupção com botão na descida para o botão B
     gpio_set_irq_enabled_with_callback(Botao_B, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler);
 
     while (1)
     {
 
         gpio_put(LED_PIN_R, 1); // liga led
-        sleep_ms(tempo / 2);    // mantem ligado por 100   ms
+        sleep_ms(tempo / 2);    // mantém ligado por 100   ms
         gpio_put(LED_PIN_R, 0); // desliga o led
-        sleep_ms(tempo / 2);    // mantem desligado por 100   ms, totalizamdo 200 ms de espera até ligar novamente(pisca 5 vezes por segundo)
+        sleep_ms(tempo / 2);    // mantém desligado por 100   ms, totalizamdo 200 ms de espera até ligar novamente (pisca 5 vezes por segundo)
 
     }
 
