@@ -1,7 +1,7 @@
 # Números de 0 a 9 na matriz de LED da BitDogLab 
 
 ## Descrição
-Este projeto utilzia os botões A e B da BitDogLab para controlar os números de 0 a 9 na matriz de LED, com o led vermelho piscando 5 vezes por segundo 
+Este projeto utiliza os botões A e B da BitDogLab para controlar os números de 0 a 9 na matriz de LED, com o led vermelho piscando 5 vezes por segundo 
 
 ---
 
@@ -20,7 +20,7 @@ Requisitos do Projeto
 1. Uso de interrupções: Todas as funcionalidades relacionadas aos botões foram implementadas
 utilizando rotinas de interrupção (IRQ).
 2. Debouncing: Foi feito o tratamento do bouncing dos botões via software.
-3. Controle de LEDs: O projeto inclui o uso de LEDs comuns (LED vermelgo RGB) e LEDs WS2812 (matriz de LEDs)
+3. Controle de LEDs: O projeto inclui o uso de LEDs comuns (LED vermelho RGB) e LEDs WS2812 (matriz de LEDs)
 
 ## Configuração
 
@@ -37,7 +37,7 @@ utilizando rotinas de interrupção (IRQ).
 2. Compile o programa utilizando a extensão **Raspberry Pi Pico Project** no VS Code:
    - Abra o projeto no VS Code.
    - Vá até a extensão do **Raspberry pi pico project** e clique em **Compile Project**.
-3. Coloque a placa em modo boot cell e copie o arquivo `ws2812.uf2`, que está na pasta build, para a BitDogLab conectado via USB.
+3. Coloque a placa em modo BOOTSEL e copie o arquivo `ws2812.uf2`, que está na pasta build, para a BitDogLab conectado via USB.
 
 ---
 
