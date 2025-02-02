@@ -36,9 +36,9 @@
 #define Botao_B 6 // gpio do botão B na BitDogLab
 
 // Variável global para armazenar a cor (Entre 0 e 255 para intensidade)
-uint8_t led_r = 255;  // Intensidade do vermelho
-uint8_t led_g = 0; // Intensidade do verde
-uint8_t led_b = 0; // Intensidade do azul
+uint8_t led_r = 0;  // Intensidade do vermelho
+uint8_t led_g = 20; // Intensidade do verde
+uint8_t led_b = 20; // Intensidade do azul
 
 //variáveis globais 
 static volatile int aux = 5; // posição do numero impresso na matriz, inicialmente imprime numero 5
