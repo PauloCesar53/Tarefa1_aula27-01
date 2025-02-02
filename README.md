@@ -43,7 +43,7 @@ utilizando rotinas de interrupção (IRQ).
 
 ## Demonstração no YouTube
 
-Confira a demonstração completa deste projeto no YouTube: (https://youtube.com/shorts/jfCe6ezIlYM?si=kFjhQT5BCX9zyJDC)
+Confira a demonstração completa deste projeto no YouTube: (https://youtu.be/MHRpk_F3FYw?si=qJ7lWEELYHf-NZAp)
 
 ---
 
@@ -51,8 +51,8 @@ Confira a demonstração completa deste projeto no YouTube: (https://youtube.com
 
 Para testar o programa sem hardware físico, você pode utilizar o **Wokwi** para emulação no VS Code:
 
-1. Instale a extensão **Wokwi for VS Code**.
-2. Inicie a emulação:
+1. Instale a extensão **Wokwi for VS Code**
+3. Inicie a emulação:
    - Clique no arquivo `diagram.json` e inicie a emulação.
 4. Teste o funcionamento do programa diretamente no ambiente emulado.
 
