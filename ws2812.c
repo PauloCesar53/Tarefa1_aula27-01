@@ -82,7 +82,7 @@ static inline uint32_t urgb_u32(uint8_t r, uint8_t g, uint8_t b)
     return ((uint32_t)(r) << 8) | ((uint32_t)(g) << 16) | (uint32_t)(b);
 }
 
-void set_one_led(uint8_t r, uint8_t g, uint8_t b);//liga os LEDs escolhidos 
+void set_one_led(uint8_t r, uint8_t g, uint8_t b);//protótipo função que liga os LEDs escolhidos 
 
 void gpio_irq_handler(uint gpio, uint32_t events);// protótipo função interrupção para os botões A e B com condição para deboucing
 
